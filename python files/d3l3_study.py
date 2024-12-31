@@ -5,7 +5,7 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 6
+l = 3
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -39,8 +39,8 @@ for j in range(lowest_low_order , highest_low_order):
 
             #set function space, for d=2 l=2 its L2 Elements
             #need to compress to remove DOFs of unrefined mesh after refinement
-            H_h = Compress(L2(mesh, order = j, complex=True)) # main function space
-            H_H = Compress(L2(mesh, order = i, complex=True)) # high order Function space for Riesz representative  
+            H_h = Compress(L2(mesh, order = j, complex=False)) # main function space
+            H_H = Compress(L2(mesh, order = i, complex=False)) # high order Function space for Riesz representative  
 
             print("# DoFs of low order space:", H_h.ndof, ", # DoFs of high order space:", H_H.ndof)
 
@@ -83,13 +83,12 @@ for j in range(lowest_low_order , highest_low_order):
             C = c.mat.ToDense().NumPy()
 
             #The matrices Involved are Symmetric, so the symmetric solver is used
-            #look for largest Eigenvalue of Bx = λCx, since ARPACK is more efficient for large EV's
-            lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
+            lam = sp.linalg.eigvalsh(C,B,subset_by_index=[0,0])
             print(lam)
             #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
             lam_abs = np.abs(lam)
-            #1/λ is the smallest EV of Cx = λBX
-            minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam_abs[0]
+            #λ is the smallest EV of Cx = λBX
+            minEV[j-lowest_low_order,i-lowest_high_Order,k] = lam_abs[0]
 
             #uniformly refines mesh, halving meshwidth
             mesh.Refine()

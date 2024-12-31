@@ -39,8 +39,8 @@ for j in range(lowest_low_order , highest_low_order):
 
             #set function space, for l=1 its edge conforming H(curl) finite elements
             #need to compress to remove DOFs of unrefined mesh after refinement
-            H_h = Compress(HCurl(mesh, order = j, type1=True, complex=True)) # main function space
-            H_H = Compress(HCurl(mesh, order = i, type1=True, complex=True)) # high order Function space for Riesz representative 
+            H_h = Compress(HCurl(mesh, order = j, type1=True, complex=False)) # main function space
+            H_H = Compress(HCurl(mesh, order = i, type1=True, complex=False)) # high order Function space for Riesz representative 
             print("# DoFs of low order space:", H_h.ndof, ", # DoFs of high order space:", H_H.ndof)
 
             #low order

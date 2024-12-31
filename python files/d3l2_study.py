@@ -39,8 +39,8 @@ for j in range(lowest_low_order , highest_low_order):
 
             #set function space, for d=3 l=1 its face H(Div) Elements
             #need to compress to remove DOFs of unrefined mesh after refinement
-            H_h = Compress(HDiv(mesh, order = j, RT=True, complex=True)) # main function space
-            H_H = Compress(HDiv(mesh, order = i, RT=True, complex=True)) # high order Function space for Riesz representative  
+            H_h = Compress(HDiv(mesh, order = j, RT=True, complex=False)) # main function space
+            H_H = Compress(HDiv(mesh, order = i, RT=True, complex=False)) # high order Function space for Riesz representative  
 
             print("# DoFs of low order space:", H_h.ndof, ", # DoFs of high order space:", H_H.ndof)
 
