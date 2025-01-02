@@ -86,9 +86,9 @@ for j in range(lowest_low_order , highest_low_order):
             lam = sp.linalg.eigvalsh(C,B,subset_by_index=[0,0])
             print(lam)
             #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
-            lam_abs = np.abs(lam)
+            #lam = np.abs(lam)
             #λ is the smallest EV of Cx = λBX
-            minEV[j-lowest_low_order,i-lowest_high_Order,k] = lam_abs[0]
+            minEV[j-lowest_low_order,i-lowest_high_Order,k] = lam[0]
 
             #uniformly refines mesh, halving meshwidth
             mesh.Refine()

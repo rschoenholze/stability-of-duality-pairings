@@ -5,7 +5,7 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 8
+l = 10
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -89,9 +89,9 @@ for j in range(lowest_low_order , highest_low_order):
             lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
             print(lam)
             #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
-            lam_abs = np.abs(lam)
+            #lam = np.abs(lam)
             #1/λ is the smallest EV of Cx = λBX
-            minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam_abs[0]
+            minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam[0]
 
             #uniformly refines mesh, halving meshwidth
             mesh.Refine()

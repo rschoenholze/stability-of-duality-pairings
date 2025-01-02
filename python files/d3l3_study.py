@@ -5,7 +5,7 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 3
+l = 5
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -71,7 +71,7 @@ for j in range(lowest_low_order , highest_low_order):
             #create Matrices for GEV problem
 
             #c is the low order galerkin matrix
-            c = BilinearForm(H_h, symmetric=True, symmetric_storage=True)
+            c = BilinearForm(H_h, symmetric=True, symmetric_storage=False)
             c += u_h*v_h * dx 
             c.Assemble()
 
@@ -80,15 +80,20 @@ for j in range(lowest_low_order , highest_low_order):
             b = c.mat.T @m_inv @ a_mixed.mat.T @ a_inv @ a_mixed.mat @ m_inv @ c.mat
             B = b.ToDense().NumPy()
 
-            C = c.mat.ToDense().NumPy()
+            #C = c.mat.ToDense().NumPy()
+            #use scipy sparse matrix format to avoid massive memory usage
+            rows,cols,vals = c.mat.COO()
+            C = sp.sparse.csr_matrix((vals,(rows,cols)))
 
             #The matrices Involved are Symmetric, so the symmetric solver is used
-            lam = sp.linalg.eigvalsh(C,B,subset_by_index=[0,0])
+            #lam = sp.linalg.eigvalsh(C,B,subset_by_index=[0,0])
+            #look for largest Eigenvalue of Bx = λCx, since ARPACK is more efficient for large EV's
+            lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
             print(lam)
             #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
-            lam_abs = np.abs(lam)
+            #lam = np.abs(lam)
             #λ is the smallest EV of Cx = λBX
-            minEV[j-lowest_low_order,i-lowest_high_Order,k] = lam_abs[0]
+            minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam[0]
 
             #uniformly refines mesh, halving meshwidth
             mesh.Refine()
@@ -96,8 +101,8 @@ for j in range(lowest_low_order , highest_low_order):
 
 print(minEV)
 
-#np.save('d{d}l{l}_minEV'.format(d=3,l=3),minEV)
-np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=3),minEV)
+np.save('data/d{d}l{l}_minEV'.format(d=3,l=3),minEV)
+#np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=3),minEV)
 
 symbols = ['o-','h-.','*:','+-']
 
@@ -115,8 +120,8 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    #plt.savefig("../plots/higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
+    plt.savefig("higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
+    #plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
 
 for j in range(lowest_low_order, highest_low_order):
     fig, ax = plt.subplots()
@@ -132,5 +137,5 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    #plt.savefig("../plots/higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
+    plt.savefig("higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
+    #plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
