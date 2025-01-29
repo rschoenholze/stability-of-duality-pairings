@@ -5,7 +5,7 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 7
+l = 5
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2

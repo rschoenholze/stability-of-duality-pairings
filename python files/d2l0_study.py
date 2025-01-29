@@ -5,7 +5,7 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 10
+l = 8
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -72,7 +72,7 @@ for j in range(lowest_low_order , highest_low_order):
             #create Matrices for GEV problem
 
             #c is the low order galerkin matrix
-            c = BilinearForm(H_h, symmetric=True, symmetric_storage=True)
+            c = BilinearForm(H_h, symmetric=True, symmetric_storage=False)
             c += grad(u_h) * grad(v_h) * dx
             c += u_h*v_h * dx 
             c.Assemble()
@@ -82,7 +82,10 @@ for j in range(lowest_low_order , highest_low_order):
             b = c.mat.T @m_inv @ a_mixed.mat.T @ a_inv @ a_mixed.mat @ m_inv @ c.mat
             B = b.ToDense().NumPy()
 
-            C = c.mat.ToDense().NumPy()
+            #use sparse storage to cut down on memory
+            #C = c.mat.ToDense().NumPy()
+            rows,cols,vals = c.mat.COO()
+            C = sp.sparse.csr_matrix((vals,(rows,cols)))
 
             #The matrices Involved are Symmetric, so the symmetric solver is used
             #look for largest Eigenvalue of Bx = λCx, since ARPACK is more efficient for large EV's
@@ -90,7 +93,7 @@ for j in range(lowest_low_order , highest_low_order):
             print(lam)
             #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
             #lam = np.abs(lam)
-            #1/λ is the smallest EV of Cx = λBX
+            #1/λ is the smallest EV of Cx = λBx
             minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam[0]
 
             #uniformly refines mesh, halving meshwidth

@@ -5,13 +5,13 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 10
+l = 8
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
 
 print(meshwidths)
-#order for which the elements corresponds to the whitney forms H1,HCurl = 1, HDiv = 0
+#order for which the elements corresponds to the whitney forms H1,HCurl = 1, HDiv,L2 = 0
 lowest_low_order = 0
 # amount of orders for the low-Order space (set to 1 if not interested in higher low orders)
 low_orders = 1

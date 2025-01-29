@@ -5,7 +5,7 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 7
+l = 6
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -102,7 +102,7 @@ for j in range(lowest_low_order , highest_low_order):
 
 print(minEV)
 
-#np.save('d{d}l{l}_minEV'.format(d=3,l=0),minEV)
+#np.save('data/d{d}l{l}_minEV'.format(d=3,l=0),minEV)
 np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=0),minEV)
 
 symbols = ['o-','h-.','*:','+-']
@@ -124,7 +124,7 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    #plt.savefig("../plots/higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
+    #plt.savefig("higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
 
 # c_S = sqrt(minEV)
@@ -142,7 +142,7 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    #plt.savefig("../plots/higherOrders/d3l0/d3l0_constant_o%i.pdf" %j)
+    #plt.savefig("higherOrders/d3l0/d3l0_constant_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_constant_o%i.pdf" %j)
 
 #convergence rate for minimal EV
@@ -161,7 +161,7 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,(minEV[j-lowest_low_order,i-lowest_high_Order,:] - np.ones(l)*ref_val)/ref_val, symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    #plt.savefig("../plots/higherOrders/d3l0/d3l0_convergence_theory_o%i.pdf" %j)
+    #plt.savefig("higherOrders/d3l0/d3l0_convergence_theory_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_convergence_theory_o%i.pdf" %j)
 
 #convergence rate for minimal EV
@@ -180,5 +180,5 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,(minEV[j-lowest_low_order,i-lowest_high_Order,:] - np.ones(l)*ref_val[i-lowest_high_Order])/ref_val[i-lowest_high_Order], symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    #plt.savefig("../plots/higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
+    #plt.savefig("higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)

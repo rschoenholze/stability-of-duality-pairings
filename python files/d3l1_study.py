@@ -5,7 +5,7 @@ import numpy as np
 import scipy as sp
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 7
+l = 5
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -19,7 +19,7 @@ low_orders = 1
 highest_low_order = lowest_low_order + low_orders
 
 #amount of orders for the high-Order space
-high_orders = 3 
+high_orders = 3
 #array storing the minimal Eigenvalue for given orders and meshwidth
 minEV = np.zeros((low_orders,high_orders,l))
 

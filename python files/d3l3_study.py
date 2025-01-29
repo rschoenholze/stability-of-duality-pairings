@@ -101,8 +101,8 @@ for j in range(lowest_low_order , highest_low_order):
 
 print(minEV)
 
-np.save('data/d{d}l{l}_minEV'.format(d=3,l=3),minEV)
-#np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=3),minEV)
+#np.save('data/d{d}l{l}_minEV'.format(d=3,l=3),minEV)
+np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=3),minEV)
 
 symbols = ['o-','h-.','*:','+-']
 
@@ -120,8 +120,8 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    plt.savefig("higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
-    #plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
+    #plt.savefig("higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
+    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_minEV_o%i.pdf" %j)
 
 for j in range(lowest_low_order, highest_low_order):
     fig, ax = plt.subplots()
@@ -137,5 +137,5 @@ for j in range(lowest_low_order, highest_low_order):
         plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
-    plt.savefig("higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
-    #plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
+    #plt.savefig("higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
+    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l3/d3l3_c_o%i.pdf" %j)
