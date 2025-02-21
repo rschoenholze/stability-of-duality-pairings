@@ -4,8 +4,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
+def matvec_b(v):
+    tmp1.data = v
+    tmp2.data = b * tmp1
+    return tmp2.FV().NumPy()
+
+
+def matvec_c(v):
+    tmp3.data = v
+    tmp4.data = c.mat * tmp3
+    return tmp4.FV().NumPy()
+
+
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 6
+l = 8
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -40,6 +52,7 @@ for j in range(lowest_low_order , highest_low_order):
             #set function space, for d=2 l=2 its L2 Elements
             #need to compress to remove DOFs of unrefined mesh after refinement
             H_h = Compress(L2(mesh, order = j, complex=False)) # main function space
+            w_h = GridFunction(H_h) #define vector for matvec wrapper
             H_H = Compress(L2(mesh, order = i, complex=False)) # high order Function space for Riesz representative  
 
             print("# DoFs of low order space:", H_h.ndof, ", # DoFs of high order space:", H_H.ndof)
@@ -65,8 +78,8 @@ for j in range(lowest_low_order , highest_low_order):
             a_mixed.Assemble()
 
             #compute inverses 
-            a_inv = a.mat.Inverse()
-            m_inv = m.mat.Inverse()
+            a_inv = a.mat.Inverse(inverse="sparsecholesky")
+            m_inv = m.mat.Inverse(inverse="sparsecholesky")
 
             #create Matrices for GEV problem
 
@@ -78,17 +91,40 @@ for j in range(lowest_low_order , highest_low_order):
             # b is the Matrix that lets us compute the norm of the Riesz representative
             # m==m.t, m_inv == m_inv.T
             b = c.mat.T @m_inv @ a_mixed.mat.T @ a_inv @ a_mixed.mat @ m_inv @ c.mat
-            B = b.ToDense().NumPy()
+            #----------------------------------------------------------
+            # B = b.ToDense().NumPy()
 
-            C = c.mat.ToDense().NumPy()
+            # C = c.mat.ToDense().NumPy()
+            # rows,cols,vals = c.mat.COO()
+            # C = sp.sparse.csr_matrix((vals,(rows,cols)))
+            #----------------------------------------------------------
+
+            tmp1 = w_h.vec.CreateVector()
+            tmp2 = w_h.vec.CreateVector()
+            # def matvec_b(v):
+            #     tmp1.data = v
+            #     tmp2.data = b * tmp1
+            #     return tmp2.FV().NumPy()
+
+            tmp3 = w_h.vec.CreateVector()
+            tmp4 = w_h.vec.CreateVector()
+            # def matvec_c(v):
+            #     tmp3.data = v
+            #     tmp4.data = c.mat * tmp3
+            #     return tmp4.FV().NumPy()
+
+            B = sp.sparse.linalg.LinearOperator((b.height,b.width), matvec_b)
+            C = sp.sparse.linalg.LinearOperator((c.mat.height,c.mat.width), matvec_c)     
 
             #The matrices Involved are Symmetric, so the symmetric solver is used
-            lam = sp.linalg.eigvalsh(C,B,subset_by_index=[0,0])
+            #lam = sp.linalg.eigvalsh(C,B,subset_by_index=[0,0])
+            #look for largest Eigenvalue of Bx = λCx, since ARPACK is more efficient for large EV's
+            lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
             print(lam)
             #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
             #lam = np.abs(lam)
-            #λ is the smallest EV of Cx = λBX
-            minEV[j-lowest_low_order,i-lowest_high_Order,k] = lam[0]
+            #1/λ is the smallest EV of Cx = λBX
+            minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam[0]
 
             #uniformly refines mesh, halving meshwidth
             mesh.Refine()
@@ -118,19 +154,19 @@ for j in range(lowest_low_order, highest_low_order):
     #plt.savefig("../plots/higherOrders/d2l2/d2l2_minEV_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d2l2/d2l2_minEV_o%i.pdf" %j)
 
-for j in range(lowest_low_order, highest_low_order):
-    fig, ax = plt.subplots()
-    plt.grid(visible=True)
-    plt.title(label="d=2, l=2, low order=%i" %j)
-    plt.xlabel('meshwidth h')
-    plt.ylabel('$c_{S}$')
-    plt.loglog(meshwidths,np.ones(l) * 1.25,'--k', label=r'$\mathcal{O}(h)$')
+# for j in range(lowest_low_order, highest_low_order):
+#     fig, ax = plt.subplots()
+#     plt.grid(visible=True)
+#     plt.title(label="d=2, l=2, low order=%i" %j)
+#     plt.xlabel('meshwidth h')
+#     plt.ylabel('$c_{S}$')
+#     plt.loglog(meshwidths,np.ones(l) * 1.25,'--k', label=r'$\mathcal{O}(h)$')
 
-    lowest_high_Order = j + 1
-    highest_high_order = lowest_high_Order + high_orders
-    for i in range(lowest_high_Order,highest_high_order):
-        plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
+#     lowest_high_Order = j + 1
+#     highest_high_order = lowest_high_Order + high_orders
+#     for i in range(lowest_high_Order,highest_high_order):
+#         plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
 
-    plt.legend()
-    #plt.savefig("../plots/higherOrders/d2l2/d2l2_c_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d2l2/d2l2_c_o%i.pdf" %j)
+#     plt.legend()
+#     #plt.savefig("../plots/higherOrders/d2l2/d2l2_c_o%i.pdf" %j)
+#     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d2l2/d2l2_c_o%i.pdf" %j)

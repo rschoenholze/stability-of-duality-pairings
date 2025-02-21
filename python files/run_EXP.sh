@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH -n 1
+#SBATCH -n 8
 #SBATCH --nodes=1
 #SBATCH --job-name=exp
 #SBATCH --output=exp.out
 #SBATCH --error=exp.err
-#SBATCH --mem-per-cpu=128000
+#SBATCH --mem-per-cpu=16000
 #SBATCH --time=144:00:00         
 
 # load some modules & list loaded modules
@@ -20,6 +20,9 @@ rm -f exp.data
 
 # echo "=================== d=2, l=0 =======================" | tee -a exp.data
 # python3 d2l0_study.py | tee -a exp.data
+echo "=================== d=3, l=0 =======================" | tee -a exp.data
+python3 d3l0_study.py | tee -a exp.data
+
 # echo "=================== d=2, l=1 =======================" | tee -a exp.data
 # python3 d2l1_study.py | tee -a exp.data
 
@@ -28,10 +31,8 @@ rm -f exp.data
 # echo "=================== d=3, l=3 =======================" | tee -a exp.data
 # python3 d3l3_study.py | tee -a exp.data
 
-# echo "=================== d=3, l=0 =======================" | tee -a exp.data
-# python3 d3l0_study.py | tee -a exp.data
-# echo "=================== d=3, l=1 =======================" | tee -a exp.data
-# python3 d3l1_study.py | tee -a exp.data
+echo "=================== d=3, l=1 =======================" | tee -a exp.data
+python3 d3l1_study.py | tee -a exp.data
 echo "=================== d=3, l=2 =======================" | tee -a exp.data
 python3 d3l2_study.py | tee -a exp.data
 
