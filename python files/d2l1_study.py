@@ -93,27 +93,12 @@ for j in range(lowest_low_order , highest_low_order):
             # b is the Matrix that lets us compute the norm of the Riesz representative
             # m==m.t, m_inv == m_inv.T
             b = c.mat.T @m_inv @ a_mixed.mat.T @ a_inv @ a_mixed.mat @ m_inv @ c.mat
-            #----------------------------------------------------------
-            # B = b.ToDense().NumPy()
-
-            # C = c.mat.ToDense().NumPy()
-            # rows,cols,vals = c.mat.COO()
-            # C = sp.sparse.csr_matrix((vals,(rows,cols)))
-            #----------------------------------------------------------
 
             tmp1 = w_h.vec.CreateVector()
             tmp2 = w_h.vec.CreateVector()
-            # def matvec_b(v):
-            #     tmp1.data = v
-            #     tmp2.data = b * tmp1
-            #     return tmp2.FV().NumPy()
 
             tmp3 = w_h.vec.CreateVector()
             tmp4 = w_h.vec.CreateVector()
-            # def matvec_c(v):
-            #     tmp3.data = v
-            #     tmp4.data = c.mat * tmp3
-            #     return tmp4.FV().NumPy()
 
             B = sp.sparse.linalg.LinearOperator((b.height,b.width), matvec_b)
             C = sp.sparse.linalg.LinearOperator((c.mat.height,c.mat.width), matvec_c)     
