@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
+#matrix vector products for scipy Eigenvalue solver
 def matvec_b(v):
     tmp1.data = v
     tmp2.data = b * tmp1
     return tmp2.FV().NumPy()
-
 
 def matvec_c(v):
     tmp3.data = v
@@ -96,7 +96,6 @@ for j in range(lowest_low_order , highest_low_order):
 
             tmp1 = w_h.vec.CreateVector()
             tmp2 = w_h.vec.CreateVector()
-
             tmp3 = w_h.vec.CreateVector()
             tmp4 = w_h.vec.CreateVector()
 
@@ -142,26 +141,6 @@ for j in range(lowest_low_order, highest_low_order):
     #plt.savefig("../plots/higherOrders/d2l0/d2l0_minEv_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d2l0/d2l0_minEV_o%i.pdf" %j)
 
-# c_S = sqrt(minEV)
-# for j in range(lowest_low_order, highest_low_order):
-#     fig, ax = plt.subplots()
-#     plt.grid(visible=True)
-#     plt.title(label="d=2, l=0, low order=%i" %j)
-#     plt.loglog(meshwidths,np.ones(l) * sqrt(0.5),'--k', label="$\sqrt{0.5}$")
-#     plt.xlabel('meshwidth h')
-#     plt.ylabel(r'$c_{S}$')
-
-#     lowest_high_Order = j + 1
-#     highest_high_order = lowest_high_Order + high_orders
-#     for i in range(lowest_high_Order,highest_high_order):
-#         plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-#     plt.legend()
-#     #plt.show()
-#     #plt.savefig("../plots/higherOrders/d2l0/d2l0_constant_o%i.pdf" %j)
-#     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d2l0/d2l0_constant_o%i.pdf" %j)
-
-#convergence rate for minimal EV
 ref_val = 1/2
 
 for j in range(lowest_low_order, highest_low_order):

@@ -18,7 +18,7 @@ def matvec_c(v):
 
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 6
+l = 5
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -117,8 +117,8 @@ for j in range(lowest_low_order , highest_low_order):
 
 print(minEV)
 
-np.save('d{d}l{l}_minEV'.format(d=3,l=1),minEV)
-#np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=1),minEV)
+#np.save('d{d}l{l}_minEV'.format(d=3,l=1),minEV)
+np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=1),minEV)
 
 symbols = ['o-','h-.','*:','+-']
 
@@ -138,20 +138,3 @@ for j in range(lowest_low_order, highest_low_order):
     plt.legend()
     #plt.savefig("../plots/higherOrders/d3l1/d3l1_minEV_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l1/d3l1_minEV_o%i.pdf" %j)
-
-# for j in range(lowest_low_order, highest_low_order):
-#     fig, ax = plt.subplots()
-#     plt.grid(visible=True)
-#     plt.title(label="d=3, l=1, low order=%i" %j)
-#     plt.xlabel('meshwidth h')
-#     plt.ylabel('$c_{S}$')
-#     plt.loglog(meshwidths,meshwidths,'--k', label=r'$\mathcal{O}(h)$')
-
-#     lowest_high_Order = j + 1
-#     highest_high_order = lowest_high_Order + high_orders
-#     for i in range(lowest_high_Order,highest_high_order):
-#         plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-#     plt.legend()
-#     #plt.savefig("../plots/higherOrders/d3l1/d3l1_c_o%i.pdf" %j)
-#     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l1/d3l1_c_o%i.pdf" %j)

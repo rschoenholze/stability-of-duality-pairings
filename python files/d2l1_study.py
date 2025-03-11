@@ -139,19 +139,3 @@ for j in range(lowest_low_order, highest_low_order):
     #plt.savefig("../plots/higherOrders/d2l1/d2l1_minEV_o%i.pdf" %j)
     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d2l1/d2l1_minEV_o%i.pdf" %j)
 
-# for j in range(lowest_low_order, highest_low_order):
-#     fig, ax = plt.subplots()
-#     plt.grid(visible=True)
-#     plt.title(label="d=2, l=1, low order=%i" %j)
-#     plt.xlabel('meshwidth h')
-#     plt.ylabel('$c_{S}$')
-#     plt.loglog(meshwidths,meshwidths,'--k', label=r'$\mathcal{O}(h)$')
-
-#     lowest_high_Order = j + 1
-#     highest_high_order = lowest_high_Order + high_orders
-#     for i in range(lowest_high_Order,highest_high_order):
-#         plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-#     plt.legend()
-#     #plt.savefig("../plots/higherOrders/d2l1/d2l1_c_o%i.pdf" %j)
-#     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d2l1/d2l1_c_o%i.pdf" %j)

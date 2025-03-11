@@ -41,13 +41,19 @@ for j in range(lowest_low_order , highest_low_order):
     #largest high order to test
     highest_high_order = lowest_high_Order + high_orders
     for i in range(lowest_high_Order, highest_high_order):
-        #reset mesh for new high Order
-        netgen_mesh =unit_cube.GenerateMesh(maxh=1)
-        mesh=Mesh(netgen_mesh)
-
         print("polynomal order of low order space:", j, ", polynomal order of high order space:", i)
         for k in range(l):
-            print("h=",meshwidths[k], "\n")
+            mw = meshwidths[k]
+            print("h=",mw)
+            #Draw(mesh)
+
+            netgen_mesh = unit_square.GenerateMesh(maxh=mw, segmentsperedge=k+1.2, grading=0.1)
+            mesh=Mesh(netgen_mesh)
+
+            #actual meshwidth
+            elvol = Integrate(CoefficientFunction(1),mesh,element_wise=True)
+            mesh_h = [(2*vol)**(1/2) for vol in elvol]
+            print("actual meshwidth range",min(mesh_h),max(mesh_h), "\n")
 
             #set function space, for l=0 its normal lagrangian finite elements
             #need to compress to remove DOFs of unrefined mesh after refinement
@@ -112,14 +118,12 @@ for j in range(lowest_low_order , highest_low_order):
             #1/λ is the smallest EV of Cx = λBX
             minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam[0]
 
-            #uniformly refines mesh, halving meshwidth
-            mesh.Refine()
             print("\n")
 
 print(minEV)
 
 #np.save('data/d{d}l{l}_minEV'.format(d=3,l=0),minEV)
-np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=0),minEV)
+np.save('/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d{d}l{l}_minEV_unstr'.format(d=3,l=0),minEV)
 
 symbols = ['o-','h-.','*:','+-']
 
@@ -141,7 +145,7 @@ for j in range(lowest_low_order, highest_low_order):
 
     plt.legend()
     #plt.savefig("higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
+    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d3l0_minEV_unstr.pdf" )
 
 #convergence rate for minimal EV
 for j in range(lowest_low_order, highest_low_order):
@@ -160,4 +164,4 @@ for j in range(lowest_low_order, highest_low_order):
 
     plt.legend()
     #plt.savefig("higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
+    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d3l0_convergence_FineEV_unstr.pdf" )

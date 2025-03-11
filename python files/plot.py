@@ -47,8 +47,8 @@ for d in range(2,4):
 
             plt.legend()
             plt.tight_layout()
-            #plt.show()
-            plt.savefig("d{a}l{b}_minEv_o{c}.pdf".format(a=d,b=l,c=j))
+            plt.show()
+            #plt.savefig("d{a}l{b}_minEv_o{c}.pdf".format(a=d,b=l,c=j))
 
         
         #convergence rate for minimal EV
@@ -70,8 +70,8 @@ for d in range(2,4):
 
                 plt.legend()
                 plt.tight_layout()
-                #plt.show()
-                plt.savefig("d{a}l{b}_convergence_FineEV_o{c}.pdf".format(a=d,b=l,c=j))
+                plt.show()
+                #plt.savefig("d{a}l{b}_convergence_FineEV_o{c}.pdf".format(a=d,b=l,c=j))
 
             #uniform refrence value, finest on highest order
             for j in range(lowest_low_order, highest_low_order):
@@ -91,6 +91,6 @@ for d in range(2,4):
 
                 plt.legend()
                 plt.tight_layout()
-                #plt.show()
-                plt.savefig("d{a}l{b}_convergence_UniformFineEV_o{c}.pdf".format(a=d,b=l,c=j))
+                plt.show()
+                #plt.savefig("d{a}l{b}_convergence_UniformFineEV_o{c}.pdf".format(a=d,b=l,c=j))
 
