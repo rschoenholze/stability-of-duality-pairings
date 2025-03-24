@@ -142,4 +142,4 @@ for j in range(lowest_low_order, highest_low_order):
 
     plt.legend()
     #plt.savefig("../plots/higherOrders/d3l2/d3l2_minEV_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d3l2_minEV_unstr.pdf" %j)
+    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d3l2_minEV_unstr.pdf")
