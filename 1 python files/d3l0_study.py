@@ -17,7 +17,7 @@ def matvec_c(v):
 
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
-l = 6
+l = 5
 meshwidths = np.ones(l)
 for h in range(l-1):
     meshwidths[h+1] = meshwidths[h]/2
@@ -31,7 +31,7 @@ low_orders = 1
 highest_low_order = lowest_low_order + low_orders
 
 #amount of orders for the high-Order space
-high_orders = 2 
+high_orders = 3 
 #array storing the minimal Eigenvalue for given orders and meshwidth
 minEV = np.zeros((low_orders,high_orders,l))
 
@@ -121,43 +121,44 @@ print(minEV)
 #np.save('data/d{d}l{l}_minEV'.format(d=3,l=0),minEV)
 np.save('/cluster/home/rschoenholze/Bsc_Thesis/data/d{d}l{l}_minEV'.format(d=3,l=0),minEV)
 
-symbols = ['o-','h-.','*:','+-']
+# symbols = ['o-','h-.','*:','+-']
 
-ref_val = 1/3
+# ref_val = 1/3
 
-#minimal Ev
-for j in range(lowest_low_order, highest_low_order):
-    fig, ax = plt.subplots()
-    plt.grid(visible=True)
-    plt.title(label="d=3, l=0, low order=%i" %j)
-    plt.loglog(meshwidths,np.ones(l) * ref_val,'--k', label="$1/3$")
-    plt.xlabel('meshwidth h')
-    plt.ylabel('minimal Eigenvalue')
+# #minimal Ev
+# for j in range(lowest_low_order, highest_low_order):
+#     fig, ax = plt.subplots()
+#     plt.grid(visible=True)
+#     plt.title(label="d=3, l=0, low order=%i" %j)
+#     plt.loglog(meshwidths,np.ones(l) * ref_val,'--k', label="$1/3$")
+#     plt.xlabel('meshwidth h')
+#     plt.ylabel('minimal Eigenvalue')
 
-    lowest_high_Order = j + 1
-    highest_high_order = lowest_high_Order + high_orders
-    for i in range(lowest_high_Order,highest_high_order):
-        plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
+#     lowest_high_Order = j + 1
+#     highest_high_order = lowest_high_Order + high_orders
+#     for i in range(lowest_high_Order,highest_high_order):
+#         plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
 
-    plt.legend()
-    #plt.savefig("higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
+#     plt.legend()
+#     #plt.savefig("higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
+#     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
 
-#convergence rate for minimal EV
-for j in range(lowest_low_order, highest_low_order):
-    fig, ax = plt.subplots()
-    plt.grid(visible=True)
-    plt.xlabel('meshwidth h')
-    plt.ylabel(r"$ (\lambda - \lambda_{ref}) * \lambda_{ref}^{-1} $")
-    plt.title(r"convergence to $\lambda_{ref}=\lambda_{min,finest}$, low order=%i" %j) 
-    plt.loglog(meshwidths,np.power(meshwidths,2),'--k', label=r'$\mathcal{O}(h^{2})$')
+# #convergence rate for minimal EV
+# for j in range(lowest_low_order, highest_low_order):
+#     fig, ax = plt.subplots()
+#     plt.grid(visible=True)
+#     plt.xlabel('meshwidth h')
+#     plt.ylabel(r"$ (\lambda - \lambda_{ref}) * \lambda_{ref}^{-1} $")
+#     plt.title(r"convergence to $\lambda_{ref}=\lambda_{min,finest}$, low order=%i" %j) 
+#     plt.loglog(meshwidths,np.power(meshwidths,2),'--k', label=r'$\mathcal{O}(h^{2})$')
 
-    lowest_high_Order = j + 1
-    highest_high_order = lowest_high_Order + high_orders
-    ref_val = minEV[j-lowest_low_order,:,l-1]
-    for i in range(lowest_high_Order,highest_high_order):
-        plt.loglog(meshwidths,(minEV[j-lowest_low_order,i-lowest_high_Order,:] - np.ones(l)*ref_val[i-lowest_high_Order])/ref_val[i-lowest_high_Order], symbols[i-lowest_high_Order], label="high order=%i"%i)
+#     lowest_high_Order = j + 1
+#     highest_high_order = lowest_high_Order + high_orders
+#     ref_val = minEV[j-lowest_low_order,:,l-1]
+#     for i in range(lowest_high_Order,highest_high_order):
+#         plt.loglog(meshwidths,(minEV[j-lowest_low_order,i-lowest_high_Order,:] - np.ones(l)*ref_val[i-lowest_high_Order])/ref_val[i-lowest_high_Order], symbols[i-lowest_high_Order], label="high order=%i"%i)
 
-    plt.legend()
-    #plt.savefig("higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
-    plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
+#     plt.legend()
+#     plt.show()
+#     #plt.savefig("higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
+#     #plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
