@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
+#TODO remove bnd vertex part 
 def H1_Primal_Dual_L2IP(mesh):
 
     #Setup
