@@ -240,3 +240,342 @@ actual meshwidth range 0.04292982337891498 0.07505797015948051
 
 [[[0.1018711  0.02804958 0.00668095 0.00174714 0.00045268]
   [0.0511488  0.012744   0.00282219 0.00063763 0.00016886]]]
+=================== d=3, l=0 =======================
+[1.     0.5    0.25   0.125  0.0625]
+polynomal order of low order space: 1 , polynomal order of high order space: 2
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 4 , # DoFs of high order space: 9
+[1.30343261]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 9 , # DoFs of high order space: 25
+[1.59664938]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 26 , # DoFs of high order space: 85
+[1.53717751]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 89 , # DoFs of high order space: 321
+[1.49210264]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 338 , # DoFs of high order space: 1285
+[1.48069899]
+
+
+polynomal order of low order space: 1 , polynomal order of high order space: 3
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 4 , # DoFs of high order space: 16
+[1.47509544]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 9 , # DoFs of high order space: 49
+[1.6787361]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 26 , # DoFs of high order space: 178
+[1.65258652]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 89 , # DoFs of high order space: 697
+[1.62523093]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 338 , # DoFs of high order space: 2842
+[1.61244172]
+
+
+polynomal order of low order space: 1 , polynomal order of high order space: 4
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 4 , # DoFs of high order space: 25
+[1.51432617]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 9 , # DoFs of high order space: 81
+[1.68510736]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 26 , # DoFs of high order space: 305
+[1.66144965]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 89 , # DoFs of high order space: 1217
+[1.63418908]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 338 , # DoFs of high order space: 5009
+[1.62174259]
+
+
+[[[0.76720499 0.62631158 0.65054296 0.67019518 0.67535671]
+  [0.67792224 0.59568624 0.60511204 0.61529717 0.62017745]
+  [0.66035972 0.593434   0.60188403 0.61192429 0.61662067]]]
+=================== d=3, l=1 =======================
+[1.     0.5    0.25   0.125  0.0625]
+polynomal order of low order space: 1 , polynomal order of high order space: 2
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 5 , # DoFs of high order space: 14
+[9.81632653]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 16 , # DoFs of high order space: 48
+[35.65115354]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 59 , # DoFs of high order space: 186
+[149.67925536]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 232 , # DoFs of high order space: 752
+[572.36461352]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 947 , # DoFs of high order space: 3114
+[2209.04936189]
+
+
+polynomal order of low order space: 1 , polynomal order of high order space: 3
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 5 , # DoFs of high order space: 27
+[19.55080141]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 16 , # DoFs of high order space: 96
+[78.46826933]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 59 , # DoFs of high order space: 381
+[354.33467762]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 232 , # DoFs of high order space: 1560
+[1568.29970451]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 947 , # DoFs of high order space: 6501
+[5921.99363431]
+
+
+polynomal order of low order space: 1 , polynomal order of high order space: 4
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 5 , # DoFs of high order space: 44
+[19.86791647]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 16 , # DoFs of high order space: 160
+[80.27924893]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 59 , # DoFs of high order space: 644
+[361.7765129]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 232 , # DoFs of high order space: 2656
+[1591.58660477]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 947 , # DoFs of high order space: 11108
+[6025.54045389]
+
+
+[[[0.1018711  0.02804958 0.00668095 0.00174714 0.00045268]
+  [0.0511488  0.012744   0.00282219 0.00063763 0.00016886]
+  [0.0503324  0.01245652 0.00276414 0.0006283  0.00016596]]]
+=================== d=3, l=2 =======================
+[1.     0.5    0.25   0.125  0.0625]
+polynomal order of low order space: 0 , polynomal order of high order space: 1
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 5 , # DoFs of high order space: 14
+[9.81632653]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 16 , # DoFs of high order space: 48
+[35.65115354]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 59 , # DoFs of high order space: 186
+[149.67925536]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 232 , # DoFs of high order space: 752
+[572.36461352]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 947 , # DoFs of high order space: 3114
+[2209.04936189]
+
+
+polynomal order of low order space: 0 , polynomal order of high order space: 2
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 5 , # DoFs of high order space: 27
+[19.55080141]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 16 , # DoFs of high order space: 96
+[78.46826933]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 59 , # DoFs of high order space: 381
+[354.33467762]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 232 , # DoFs of high order space: 1560
+[1568.29970451]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 947 , # DoFs of high order space: 6501
+[5921.99363431]
+
+
+polynomal order of low order space: 0 , polynomal order of high order space: 3
+h= 1.0
+actual meshwidth range 0.999999999999998 0.999999999999998 
+
+# DoFs of low order space: 5 , # DoFs of high order space: 44
+[19.86791647]
+
+
+h= 0.5
+actual meshwidth range 0.43263752121901616 0.5600419876667321 
+
+# DoFs of low order space: 16 , # DoFs of high order space: 160
+[80.27924893]
+
+
+h= 0.25
+actual meshwidth range 0.18543008709714526 0.30673639895775445 
+
+# DoFs of low order space: 59 , # DoFs of high order space: 644
+[361.7765129]
+
+
+h= 0.125
+actual meshwidth range 0.0851139651875047 0.15162262780765884 
+
+# DoFs of low order space: 232 , # DoFs of high order space: 2656
+[1591.58660477]
+
+
+h= 0.0625
+actual meshwidth range 0.04292982337891498 0.07505797015948051 
+
+# DoFs of low order space: 947 , # DoFs of high order space: 11108
+[6025.54045389]
+
+
+[[[0.1018711  0.02804958 0.00668095 0.00174714 0.00045268]
+  [0.0511488  0.012744   0.00282219 0.00063763 0.00016886]
+  [0.0503324  0.01245652 0.00276414 0.0006283  0.00016596]]]

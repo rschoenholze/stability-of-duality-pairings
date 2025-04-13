@@ -3,13 +3,29 @@ from netgen.occ import *
 import matplotlib.pyplot as plt
 import numpy as np
 
-#TODO curl div swap
-#TODO priority for files
+def stability_plot(minEV, dim, diffForm, BND='',meshtype = 'str', file='', dual_mesh = False, swap_HC_HD=False):
+    '''
+    minEV is a matrix containing the minimal eigenvalues of the generalized eigenvalue problem. 
 
-def stability_plot(minEV, dim, diffForm, BND='',meshtype = 'str', file='', save=''):
+    dim needs to be 2 or 3.
+
+    diffForm <= dim, determines the Whitney forms, Important as the lowest order isnt the same for all spaces.
+
+    BND are the boundary conditions, if none are provided, its assumed that there are none.
+
+    meshtype determines if the mesh is structured ('str') or unstructured (anything else).
+
+    file, if provided saves the plot to that path, if not provided plot wont be saved.
+
+    dual_mesh, wether the dual mesh method to approximate the dual space was used or not, Flase if not provided.
+    '''
     symbols = ['o-','h-.','*:','+-']
 
-    if (diffForm == 0) or (dim==3 and diffForm==1):
+    if dual_mesh==True and dim!=2:
+        print("dual mesh is only available in 2D")
+        return 
+
+    if (diffForm == 0) or (dim==3 and diffForm==1 and swap_HC_HD==False) or (dim==3 and diffForm==2 and swap_HC_HD==True) or (dim==2 and diffForm==1 and swap_HC_HD==True):
         low_order = 1
     else:
         low_order = 0
@@ -17,8 +33,11 @@ def stability_plot(minEV, dim, diffForm, BND='',meshtype = 'str', file='', save=
     nMW = minEV.shape[1]
     meshwidths = np.ones(nMW)
     
+    #used to automatically title plot
     label_addon1 = ''
     label_addon2 = ''
+    ylabel_pre = ''
+    label_addon3 = ''
 
     #meshwidths for bnd cond starts at 0.5
     if BND != '':
@@ -31,33 +50,41 @@ def stability_plot(minEV, dim, diffForm, BND='',meshtype = 'str', file='', save=
     match meshtype:
         case 'str':
             label_addon2 = ', structured mesh'
-        case 'unstr':
+        case _:
             label_addon2 = ', unstructured mesh'
+            ylabel_pre = 'average '
 
-    print(meshwidths)
+    if dual_mesh == True:
+        label_addon3 = ', dual mesh'
 
     high_orders = minEV.shape[0]
 
     #min EV
     fig, ax = plt.subplots()
     plt.grid(visible=True)
-    plt.title(label="d={a}, l={b}".format(a=dim,b=diffForm) + label_addon1 + label_addon2)
+    plt.title(label="Inf-Sup Constant for {b}-forms in {a}D".format(a=dim,b=diffForm) + label_addon1 + label_addon2 + label_addon3)
     plt.rcParams['axes.formatter.min_exponent'] = 1
-    if diffForm == 0 or diffForm == dim:
-        #TODO change Label to O(c) 
-        #plt.loglog(meshwidths,np.ones(nMW) * 1/d,'--k', label="1/%i"%d)
+    plt.tick_params(
+        axis='x',          # changes apply to the x-axis
+        which='minor',     # minor ticks are affected
+        bottom=False,      # ticks along the bottom edge are off
+        top=False,         # ticks along the top edge are off
+        labelbottom=False) # labels along the bottom edge are off
+    
+    if diffForm == 0 or diffForm == dim or dual_mesh==True: 
+        plt.loglog(meshwidths,np.ones(nMW) * np.sqrt(minEV[high_orders-1, len(meshwidths)-1]) - 0.001,'--k', label="$\mathcal{O}(c)$")
         ...
     else:
-        #plt.loglog(meshwidths,np.power(meshwidths,2),'--k', label=r'$\mathcal{O}(h^{2})$')
+        plt.loglog(meshwidths,np.power(meshwidths,1),'--k', label=r'$\mathcal{O}(h)$')
         ...
 
-    plt.xlabel('meshwidth h')
-    plt.ylabel('minimal Eigenvalue')
+    plt.xlabel(ylabel_pre + 'meshwidth h')
+    plt.ylabel('$c_S$')
 
     lowest_high_Order = low_order + 1
     highest_high_order = lowest_high_Order + high_orders
     for i in range(lowest_high_Order,highest_high_order):
-        plt.loglog(meshwidths,minEV[i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
+        plt.loglog(meshwidths,np.sqrt(minEV[i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
 
     plt.legend()
     Labels = []
@@ -71,10 +98,9 @@ def stability_plot(minEV, dim, diffForm, BND='',meshtype = 'str', file='', save=
         Labels.append('$2^{%i}$'%exp)
         exp -= 1
 
-    print(Labels)
-
     plt.xticks(ticks=meshwidths, labels=Labels)
     plt.tight_layout()
-    if save != '':
-        plt.savefig(save.format(a=dim,b=diffForm) + '.pdf')
-    plt.show()
+    if file != '':
+        plt.savefig(file + '.pdf')
+    else:
+        plt.show()

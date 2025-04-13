@@ -47,13 +47,8 @@ for j in range(lowest_low_order , highest_low_order):
             print("h=",mw)
             #Draw(mesh)
 
-            netgen_mesh = unit_square.GenerateMesh(maxh=mw, segmentsperedge=k+1.2, grading=0.1)
+            netgen_mesh = unit_cube.GenerateMesh(maxh=mw, segmentsperedge=k+1.2, grading=0.1)
             mesh=Mesh(netgen_mesh)
-
-            #actual meshwidth
-            elvol = Integrate(CoefficientFunction(1),mesh,element_wise=True)
-            mesh_h = [(2*vol)**(1/2) for vol in elvol]
-            print("actual meshwidth range",min(mesh_h),max(mesh_h), "\n")
 
             #set function space, for l=0 its normal lagrangian finite elements
             #need to compress to remove DOFs of unrefined mesh after refinement
@@ -113,8 +108,6 @@ for j in range(lowest_low_order , highest_low_order):
             #look for largest Eigenvalue of Bx = λCx, since ARPACK is more efficient for large EV's
             lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
             print(lam)
-            #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
-            #lam = np.abs(lam)
             #1/λ is the smallest EV of Cx = λBX
             minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam[0]
 
@@ -122,46 +115,4 @@ for j in range(lowest_low_order , highest_low_order):
 
 print(minEV)
 
-#np.save('data/d{d}l{l}_minEV'.format(d=3,l=0),minEV)
-np.save('/cluster/home/rschoenholze/Bsc_Thesis/2 unstructured/d{d}l{l}_minEV_unstr'.format(d=3,l=0),minEV)
-
-# symbols = ['o-','h-.','*:','+-']
-
-# ref_val = 1/3
-
-# #minimal Ev
-# for j in range(lowest_low_order, highest_low_order):
-#     fig, ax = plt.subplots()
-#     plt.grid(visible=True)
-#     plt.title(label="d=3, l=0, low order=%i" %j)
-#     plt.loglog(meshwidths,np.ones(l) * ref_val,'--k', label="$1/3$")
-#     plt.xlabel('meshwidth h')
-#     plt.ylabel('minimal Eigenvalue')
-
-#     lowest_high_Order = j + 1
-#     highest_high_order = lowest_high_Order + high_orders
-#     for i in range(lowest_high_Order,highest_high_order):
-#         plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-#     plt.legend()
-#     #plt.savefig("higherOrders/d3l0/d3l0_minEV_o%i.pdf" %j)
-#     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/2 unstructured/d3l0_minEV_unstr.pdf" )
-
-# #convergence rate for minimal EV
-# for j in range(lowest_low_order, highest_low_order):
-#     fig, ax = plt.subplots()
-#     plt.grid(visible=True)
-#     plt.xlabel('meshwidth h')
-#     plt.ylabel(r"$ (\lambda - \lambda_{ref}) * \lambda_{ref}^{-1} $")
-#     plt.title(r"convergence to $\lambda_{ref}=\lambda_{min,finest}$, low order=%i" %j) 
-#     plt.loglog(meshwidths,np.power(meshwidths,2),'--k', label=r'$\mathcal{O}(h^{2})$')
-
-#     lowest_high_Order = j + 1
-#     highest_high_order = lowest_high_Order + high_orders
-#     ref_val = minEV[j-lowest_low_order,:,l-1]
-#     for i in range(lowest_high_Order,highest_high_order):
-#         plt.loglog(meshwidths,(minEV[j-lowest_low_order,i-lowest_high_Order,:] - np.ones(l)*ref_val[i-lowest_high_Order])/ref_val[i-lowest_high_Order], symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-#     plt.legend()
-#     #plt.savefig("higherOrders/d3l0/d3l0_convergence_FineEV_o%i.pdf" %j)
-#     plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d3l0_convergence_FineEV_unstr.pdf" )
+np.save('d{d}l{l}_minEV_unstr'.format(d=3,l=0),minEV)

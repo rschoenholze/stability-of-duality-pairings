@@ -60,18 +60,8 @@ def H1_Primal_Dual_L2IP(mesh):
     j = 0
 
     for v in pv:
-        #skip v if boundry vertex
 
-        bnd_vertex = False
-        for bnd_el in mesh.Elements(BND):
-            if v in bnd_el.vertices:
-                bnd_vertex = True
-                break
-        
-        if bnd_vertex == True:
-            coeff = 1 # 0 if homogenous BC
-        else:
-            coeff =  1
+        coeff =  1
 
         for el in v.elements:
             #print(f)
@@ -99,7 +89,6 @@ def H1_Primal_Dual_L2IP(mesh):
     j = 0
 
     for par in pv:
-        #print(v)
         par_dofnr = fes_primal.GetDofNrs(par)[0]
         par_nf = len(par.faces)
         for el in par.elements:
@@ -107,7 +96,6 @@ def H1_Primal_Dual_L2IP(mesh):
             for v in ele.vertices:
                 ver = mesh.__getitem__(v)
                 child_dofnr = fes_primal.GetDofNrs(v)[0]
-                #print(dofnr)
                 row_ind[j] = par_dofnr
                 col_ind[j] = child_dofnr
                 #coarse vertices
@@ -132,8 +120,6 @@ def H1_Primal_Dual_L2IP(mesh):
     NG_dual = la.SparseMatrixdouble.CreateFromCOO(coo.row,coo.col,coo.data, nv, nv)
 
     return NG_dual
-
-# ---
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
 l = 6
@@ -230,8 +216,6 @@ for i in range(lowest_high_Order, highest_high_order):
         #look for largest Eigenvalue of Bx = λCx, since ARPACK is more efficient for large EV's
         lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
         print(lam)
-        #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
-        #lam = np.abs(lam)
         #1/λ is the smallest EV of Cx = λBx
         minEV[i-lowest_high_Order,k] = 1/lam[0]
 
@@ -241,26 +225,6 @@ print(minEV)
 
 np.save('d2l0_unstr_dual',minEV)
 
-symbols = ['o-','h-.','*:','+-']
-
-#minimal Ev
-
-fig, ax = plt.subplots()
-plt.grid(visible=True)
-plt.title(label="d=2, l=0, dual, low order=%i" %1)
-plt.xlabel('meshwidth h')
-plt.ylabel('minimal Eigenvalue')
-
-lowest_high_Order = low_order + 1
-highest_high_order = lowest_high_Order + high_orders
-for i in range(lowest_high_Order,highest_high_order):
-    plt.loglog(meshwidths,minEV[i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-plt.legend()
-
-plt.savefig("d2l0_unstr_dual.pdf" )
-
-#plt.show()
 
 
 

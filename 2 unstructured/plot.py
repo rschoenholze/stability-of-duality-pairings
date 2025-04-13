@@ -30,23 +30,22 @@ for d in range(2,4):
         for j in range(lowest_low_order, highest_low_order):
             fig, ax = plt.subplots()
             plt.grid(visible=True)
-            plt.title(label="d={a}, l={b}, low order={c}".format(a=d,b=l,c=j))
+            plt.title(label="Inf-Sup Constant for {b}-forms in {a}D on a unstructured Mesh".format(a=d,b=l))
             plt.rcParams['axes.formatter.min_exponent'] = 1
             if l == 0 or l == d:
-                #TODO change Label to O(c) 
-                plt.loglog(meshwidths,np.ones(nMW) * 1/d,'--k', label="$\mathcal{O}(c)$")
+                plt.loglog(meshwidths,np.ones(nMW) * np.sqrt(minEV[minEV.shape[0]-1, high_orders-1, len(meshwidths)-1]) - 0.001,'--k', label="$\mathcal{O}(c)$")
                 ...
             else:
-                plt.loglog(meshwidths,np.power(meshwidths,2),'--k', label=r'$\mathcal{O}(h^{2})$')
+                plt.loglog(meshwidths,np.power(meshwidths,1),'--k', label=r'$\mathcal{O}(h)$')
                 ...
 
-            plt.xlabel('meshwidth h')
-            plt.ylabel('minimal Eigenvalue')
+            plt.xlabel('average meshwidth h')
+            plt.ylabel('$c_S$')
 
             lowest_high_Order = j + 1
             highest_high_order = lowest_high_Order + high_orders
             for i in range(lowest_high_Order,highest_high_order):
-                plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
+                plt.loglog(meshwidths,np.sqrt(minEV[j-lowest_low_order,i-lowest_high_Order,:]), symbols[i-lowest_high_Order], label="high order=%i"%i)
 
             plt.legend()
             Labels = []

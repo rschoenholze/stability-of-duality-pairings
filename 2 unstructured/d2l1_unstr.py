@@ -112,8 +112,6 @@ for j in range(lowest_low_order , highest_low_order):
             #look for largest Eigenvalue of Bx = λCx, since ARPACK is more efficient for large EV's
             lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
             print(lam)
-            #if FEM space is complex need to take absolut value (the EV's have no imaginary part, but are still datatype complex)        
-            #lam = np.abs(lam)
             #1/λ is the smallest EV of Cx = λBX
             minEV[j-lowest_low_order,i-lowest_high_Order,k] = 1/lam[0]
 
@@ -122,24 +120,4 @@ for j in range(lowest_low_order , highest_low_order):
 print(minEV)
 
 np.save('d{d}l{l}_minEV_unstr'.format(d=2,l=1),minEV)
-#np.save('/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d{d}l{l}_minEV_unstr'.format(d=2,l=1),minEV)
-
-symbols = ['o-','h-.','*:','+-']
-
-for j in range(lowest_low_order, highest_low_order):
-    fig, ax = plt.subplots()
-    plt.grid(visible=True)
-    plt.title(label="d=2, l=1, low order=%i" %j)
-    plt.xlabel('meshwidth h')
-    plt.ylabel('minimal Eigenvalue')
-    plt.loglog(meshwidths,np.power(meshwidths,2),'--k', label=r'$\mathcal{O}(h^{2})$')
-
-    lowest_high_Order = j + 1
-    highest_high_order = lowest_high_Order + high_orders
-    for i in range(lowest_high_Order,highest_high_order):
-        plt.loglog(meshwidths,minEV[j-lowest_low_order,i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-    plt.legend()
-    plt.savefig("d2l1_minEV_unstr.pdf")
-    #plt.savefig("/cluster/home/rschoenholze/Bsc_Thesis/unstructured/d2l1_minEV_unstr.pdf")
 

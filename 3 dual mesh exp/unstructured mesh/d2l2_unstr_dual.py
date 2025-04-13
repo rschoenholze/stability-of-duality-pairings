@@ -40,7 +40,6 @@ def L2_Primal_Dual_L2IP(mesh):
     L2_H1_L2IP += L2_u * H1_v * dx
 
     L2_H1_L2IP.Assemble()
-    #print(L2_H1_L2IP.mat.shape)
 
     rows,cols,vals  = L2_H1_L2IP.mat.COO()
 
@@ -86,7 +85,6 @@ def L2_Primal_Dual_L2IP(mesh):
 
     primal_map = sp.sparse.csr_matrix((data,(row_ind,col_ind)))
     
-    #TODO make sure this constellation of shapes, and what they represent make sense
     dual_L2IP = dual_map @ mat @ primal_map.T
 
     coo = dual_L2IP.tocoo(copy=True)
@@ -94,8 +92,6 @@ def L2_Primal_Dual_L2IP(mesh):
     NG_dual = la.SparseMatrixdouble.CreateFromCOO(coo.row,coo.col,coo.data, mesh.ne//6, mesh.ne//6)
 
     return NG_dual
-
-# ---
 
 #l is number of meshwidths, the n-th meshwidth is 1/(2^(n-1))
 l = 6
@@ -111,8 +107,6 @@ low_order = 0
 high_orders = 3 
 #array storing the minimal Eigenvalue for given orders and meshwidth
 minEV = np.zeros((high_orders,l))
-
-#TODO remove low oder iteration
 
 lowest_high_Order = low_order + 1
     #largest high order to test
@@ -203,23 +197,3 @@ print(minEV)
 
 np.save('d2l2_unstr_dual',minEV)
 
-symbols = ['o-','h-.','*:','+-']
-
-#minimal Ev
-
-fig, ax = plt.subplots()
-plt.grid(visible=True)
-plt.title(label="d=2, l=2, dual, low order=%i" %1)
-plt.xlabel('meshwidth h')
-plt.ylabel('minimal Eigenvalue')
-
-lowest_high_Order = low_order + 1
-highest_high_order = lowest_high_Order + high_orders
-for i in range(lowest_high_Order,highest_high_order):
-    plt.loglog(meshwidths,minEV[i-lowest_high_Order,:], symbols[i-lowest_high_Order], label="high order=%i"%i)
-
-plt.legend()
-
-plt.savefig("d2l2_unstr_dual.pdf")
-
-#plt.show()
