@@ -1,6 +1,5 @@
 from ngsolve import *
 from netgen.occ import *
-import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
@@ -97,7 +96,7 @@ def createMesh(mw, numRef, mt, b, d):
     return mesh
 
 def estimate_stability(num_mw = 4, bnd = '', diff_form = 0,dim = 2, mesh_type = "str", num_HO = 3, Swap_HCurl_HDiv = False):
-    '''returns a num_mx by num_HO matrix containing the minimal Eigenvalues of the general eigenvalue problem which estimates 
+    '''returns a num_mw by num_HO matrix containing the minimal Eigenvalues of the general eigenvalue problem which estimates 
     the Inf-Sup condition, to get the Inf-Sup constants, take the square root of the return value.
 
     num_mw is the number of meshwidths, starting at 1 and halving the prevoius meshwidth to get the next one, 
@@ -354,8 +353,5 @@ def estimate_stability_dual_Mesh(num_mw = 4, bnd = '', diff_form = 0, mesh_type 
             lam = sp.sparse.linalg.eigsh(B, k=1, M=C, which='LM', return_eigenvectors=False)
             #1/λ is the smallest EV of Cx = λBx
             minEV[i-lowest_high_Order,k] = 1/lam[0]
-
-    if mesh_type=='str':
-        ...
 
     return minEV

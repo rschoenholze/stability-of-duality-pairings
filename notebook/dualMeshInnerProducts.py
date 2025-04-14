@@ -1,11 +1,9 @@
 from ngsolve import *
-from ngsolve.webgui import Draw
 from netgen.occ import *
-import matplotlib.pyplot as plt
 import numpy as np
 import scipy as sp
 
-#TODO check  that new datalength works
+
 def H1_Primal_Dual_L2IP(mesh, swap_HC_HD=False):
     '''Returns a NGSolve sparse Matrix that corresponds to the L2 inner Produxt, between lagrangian 
     piecewise linears and the dual space constructed on piecewise constant basis functions.
@@ -147,7 +145,6 @@ def H1_Primal_Dual_L2IP(mesh, swap_HC_HD=False):
     return NG_dual
 
 
-#TODO check that new data length works
 def L2_Primal_Dual_L2IP(mesh, swap_HC_HD=False):
     '''Returns a NGSolve sparse Matrix that corresponds to the L2 inner Produxt, between 
     piecewise constants and the dual space constructed on piecewise linear basis functions.

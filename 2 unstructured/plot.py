@@ -32,6 +32,12 @@ for d in range(2,4):
             plt.grid(visible=True)
             plt.title(label="Inf-Sup Constant for {b}-forms in {a}D on a unstructured Mesh".format(a=d,b=l))
             plt.rcParams['axes.formatter.min_exponent'] = 1
+            plt.tick_params(
+                axis='x',          # changes apply to the x-axis
+                which='minor',     # minor ticks are affected
+                bottom=False,      # ticks along the bottom edge are off
+                top=False,         # ticks along the top edge are off
+                labelbottom=False) # labels along the bottom edge are off
             if l == 0 or l == d:
                 plt.loglog(meshwidths,np.ones(nMW) * np.sqrt(minEV[minEV.shape[0]-1, high_orders-1, len(meshwidths)-1]) - 0.001,'--k', label="$\mathcal{O}(c)$")
                 ...
