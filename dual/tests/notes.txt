@@ -1,0 +1,43 @@
+-SplitPowellSabine (&SplitElementsAlfeld) dont count as refinements for the multigrid 
+
+-barycentric Refinement from ngspetsc?
+
+-v.nr for node id
+
+-Prolongation?
+
+-Can i activate unused dofs on coarse mesh?
+
+-BuildSearchTree in Netgen mesh, what does it doo?
+
+-Check FinalizeUpdate in function space classes
+
+- is there a function to get parent edges?
+
+Edges of unrefined mesh are still accesible
+
+Mapping to coarse mesh:
+    -NGSolve methods (GetParentXXX) dont work because SplitPowellSabine does not count as a refinements
+        3 Options:
+            ->Implement own barycentric Refinement (could alse extend to 3d) that counts as refinement for NGsolve (could use Prolongation, I think)
+            ->Do it manually on Ngsolve side (get vertices and recoonstruct old element that way) OR (set faces as regions and after refinement check whats inside)
+            
+            
+            Works for L2: Only Assumption elements in netgen and ngsolve have same numbering
+            ->Do it on netgen side
+                ->using ngsolve element nr in the netgen MacroElementNr works, dont know if correct or just int ranges are same accidentaly
+
+
+Mapping Matrix needs further research
+    -do the (already existing) vertices keep their number after barycentric Refinement? find out
+        ->if yes, H1 is possible aswell
+
+DONE: 
+    -reconstruct L2 basis function on coarse Mesh
+    -H1 dual space
+
+    -reconstruct H1 basis function on coarse Mesh (requires Assumption that already existing vertices keep numbering)
+
+
+TODO: reconstruct Hdiv basis functions on carse mesh 
+    Hdiv

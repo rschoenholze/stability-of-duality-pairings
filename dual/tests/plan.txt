@@ -1,0 +1,39 @@
+
+-Vertices of the coarse mesh keep their number after refinement
+
+-netgen_mesh.MacroElementNr(el.nr), where el.nr is the number of the child element, returns the Parent Element nr in the coarse mesh
+
+-In 2D each element is associated with 1 Face, 3 Edges, 3 Vertices
+
+-mesh.vertices/mesh.edges/mesh.faces returns all vertices/edges/faces in the mesh
+
+-vertex.elements returns a tuple of all elements that the vertex is in
+
+-given a functionspace fes, fes.GetDofNrs(el) return a tuple of all the Degree of Freedom numbers in the element (also works with a vertex/edge/face instead of a element)
+
+Goal:
+    -given the L2 inner product (between e.g H1 basis functions and L2 basis functions) on barycentically refined mesh create mapping matrices to create L2 inner product between space and its dual (e.g H1 and H~1 (subspace of L2))
+
+
+Recovering coarse Basis functions on the barycentically refined mesh: (multiply to the left of bilinear form)
+    The Matrix has Dimensions NxM where N is the number of Dofs in the coarse Mesh and M the number of Dofs in the refined Mesh
+
+    L2 function space:
+        -the number of parent Elements is equal to N
+        -the Number of child elements is equal to M
+        -Matrix Construction: row is the parent element nr, col the cild element number, entry is 1 (no weigths needed)
+
+    H1 function space:
+        -number of vertices in unrefined mesh is equal to N
+        -number of vertices in refined mesh is equal to M
+        -Matrix Construction: row is the number of a unrefined vertex (parent), col is the number of a refined vertex sharing an element with parent, entry can be calculated based on number occurences in parent.elements
+
+        
+Constructing Dual based in "A DUAL FINITE ELEMENT COMPLEX ON THE BARYCENTRIC REFINEMENT": (multiply to the right of bilinear form)
+    The Matrix has Dimensions XxY where X is the number of Dofs in the primal space (e.g number of vertices on coarse H1) on the coarse mesh, Y is the number of Dofs in the super space of the dual on the refined mesh (e.g number of faces on barycentricly refined L2 space)
+
+    H1 Dual (subspace of L2):
+        -for each original vertex, in the refined mesh get faces containg the vertex (via vertex.faces), row is vertex number, col is face number, entry is 1/(#Faces containg vertex)
+
+    L2Dual (subspace of H1):
+        -row is parent element (netgen_mesh.MacroElementNr(el.nr)), col is vertex number, entry can be calculated from occurences in elements
