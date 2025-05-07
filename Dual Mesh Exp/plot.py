@@ -24,7 +24,7 @@ for d in range(2,3):
                     pre2 = '_'
                     title = ' with Dirichlet Boundary Conditions'
 
-                minEV = np.load(dir_path + '/'+ st1 +'/d{d}l{l}_'.format(d=d,l=l) + pre1 + 'str_dual' + pre2 + st2 +'.npy')
+                minEV = np.load(dir_path + '/'+ st1 + '/data' +'/d{d}l{l}_'.format(d=d,l=l) + pre1 + 'str_dual' + pre2 + st2 +'.npy')
 
                 symbols = ['o-','h-.','*:','+-']
 
