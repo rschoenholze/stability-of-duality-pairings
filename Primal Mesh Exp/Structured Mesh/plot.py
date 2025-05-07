@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 
 #write minEV tensor from computation files to a .npy file, then read that file into this one and do the plotting
@@ -8,7 +9,8 @@ for d in range(2,4):
     for l in range(0,d+1):
         print("d{d}l{l}".format(d=d,l=l))
         
-        minEV = np.load('1 python files/data/d{d}l{l}_minEV'.format(d=d,l=l) + '.npy')
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        minEV = np.load(dir_path + '/data/d{d}l{l}_minEV'.format(d=d,l=l) + '.npy')
 
         symbols = ['o-','h-.','*:','+-']
 
@@ -65,7 +67,7 @@ for d in range(2,4):
             plt.xticks(ticks=meshwidths, labels=Labels)
             plt.tight_layout()
             #plt.show()
-            plt.savefig("1 python files/plots/d{a}l{b}_minEv_str.pdf".format(a=d,b=l))
+            plt.savefig(dir_path + "/plots/d{a}l{b}_minEv_str.pdf".format(a=d,b=l))
 
         
         #convergence rate for minimal EV
