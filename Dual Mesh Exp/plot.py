@@ -1,8 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 
 #write minEV tensor from computation files to a .npy file, then read that file into this one and do the plotting
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 for d in range(2,3):
     for l in range(0,d+1):
@@ -21,7 +24,7 @@ for d in range(2,3):
                     pre2 = '_'
                     title = ' with Dirichlet Boundary Conditions'
 
-                minEV = np.load('3 dual mesh exp/'+ st1 +'/d{d}l{l}_'.format(d=d,l=l) + pre1 + 'str_dual' + pre2 + st2 +'.npy')
+                minEV = np.load(dir_path + '/'+ st1 +'/d{d}l{l}_'.format(d=d,l=l) + pre1 + 'str_dual' + pre2 + st2 +'.npy')
 
                 symbols = ['o-','h-.','*:','+-']
 
@@ -78,7 +81,7 @@ for d in range(2,3):
                 plt.xticks(ticks=meshwidths, labels=Labels)
                 plt.tight_layout()
                 #plt.show()
-                plt.savefig('3 dual mesh exp/plots/d{a}l{b}_dual_'.format(a=d,b=l) + pre1 + 'str_' + st2 + '.pdf')
+                plt.savefig(dir_path + '/plots/d{a}l{b}_dual_'.format(a=d,b=l) + pre1 + 'str_' + st2 + '.pdf')
 
 
 
